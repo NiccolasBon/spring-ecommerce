@@ -13,18 +13,18 @@
 
 
 <!-- Bootstrap core CSS -->
-<link th:href="@{vendor/bootstrap/css/bootstrap.min.css}"
+<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
 	rel="stylesheet">
 
 <!-- Custom styles for this template -->
-<link th:href="@{css/heroic-features.css}" rel="stylesheet">
+<link th:href="@{/css/heroic-features.css}" rel="stylesheet">
 
 </head>
 
 <body>
 
 	<!-- Navigation -->
-	<div th:include="administrador/template_admin.html::header"></div>
+	<div th:insert="~{administrador/template_admin.html::header}"></div>
 
 	<!-- Page Content -->
 	<div class="container">
@@ -36,11 +36,11 @@
 		</h1>
 
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+			<li class="breadcrumb-item"><a th:href="@{/administrador}">Home</a></li>
 			<li class="breadcrumb-item active">Ver Productos</li>
 		</ol>
 
-		<a class="btn btn-primary" href="#"> Crear Producto</a>
+		<a class="btn btn-primary" th:href="@{/productos/create}"> Crear Producto</a>
 		<h2>Productos</h2>
 		<table class="table">
 			<thead>
@@ -69,11 +69,11 @@
 	<!-- /.container -->
 
 	<!-- Footer -->
-	<div th:include="administrador/template_admin.html::footer"></div>
+	<div th:insert="~{administrador/template_admin.html::footer}"></div>
 
 	<!-- Bootstrap core JavaScript -->
-	<script th:src="@{vendor/jquery/jquery.min.js}"></script>
-	<script th:src="@{vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+	<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
 </body>
 
