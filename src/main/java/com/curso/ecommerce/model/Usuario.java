@@ -130,7 +130,7 @@ public class Usuario {
 	public String toString() {
 		return "Usuario [id=" + id + ", nombre=" + nombre + ", username=" + username + ", email=" + email
 				+ ", direccion=" + direccion + ", telefono=" + telefono + ", tipo=" + tipo + ", password=" + password
-				+ ", listaProductos=" + listaProductos + ", listaOrdenes=" + listaOrdenes + "]";
+				;
 	}
 
 }
