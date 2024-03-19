@@ -1,5 +1,7 @@
 package com.curso.ecommerce.controller;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.curso.ecommerce.model.Producto;
 import com.curso.ecommerce.service.ProductoService;
 
 @Controller
 @RequestMapping("/")
 public class HomeController {
-	
+
 	private final Logger LOG = LoggerFactory.getLogger(HomeController.class);
 
 	@Autowired
@@ -27,10 +30,17 @@ public class HomeController {
 
 		return "usuario/home";
 	}
-	
+
 	@GetMapping("productohome/{id}")
-	public String productoHome(@PathVariable Integer id) {
-		LOG.info("Id enviado como parametro {}",id);
+	public String productoHome(@PathVariable Integer id, Model model) {
+		LOG.info("Id enviado como parametro {}", id);
+
+		Producto producto = new Producto();
+		Optional<Producto> optionalProducto = productoService.get(id);
+		producto = optionalProducto.get();
+
+		model.addAttribute("producto", producto);
+
 		return "usuario/productohome";
 	}
 
