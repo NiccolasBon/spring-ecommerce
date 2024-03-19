@@ -11,16 +11,16 @@ import com.curso.ecommerce.service.ProductoService;
 @Controller
 @RequestMapping("/")
 public class HomeController {
-	
+
 	@Autowired
 	private ProductoService productoService;
 
 	@GetMapping("")
 	public String home(Model model) {
-		
+
 		model.addAttribute("listaProductos", productoService.findAll());
-		
+
 		return "usuario/home";
 	}
-	
+
 }

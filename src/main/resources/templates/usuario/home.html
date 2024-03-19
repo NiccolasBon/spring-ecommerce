@@ -24,31 +24,7 @@
 <body>
 
 	<!-- Navigation -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="#">Spring eCommerce</a>
-
-			<form class="form-inline my-2 my-lg-0" method="post" action="#">
-				<input class="form-control mr-sm-2" type="search"
-					placeholder="Buscar" aria-label="Search" name="nombre"
-					autocomplete="off">
-				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-			</form>
-
-
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarResponsive" aria-controls="navbarResponsive"
-				aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item"><a class="nav-link" href="carrito.html">Carrito</a></li>
-					<li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+	<div th:insert="~{usuario/template_usuario.html::header}"></div>
 
 	<!-- Page Content -->
 	<div class="container">
@@ -62,9 +38,11 @@
 		<!-- Page Features -->
 		<div class="row text-center">
 
-			<div class="col-lg-3 col-md-6 mb-4" th:each="producto: ${listaProductos}">
+			<div class="col-lg-3 col-md-6 mb-4"
+				th:each="producto: ${listaProductos}">
 				<div class="card h-100">
-					<img class="card-img-top" th:src="@{/images/{img} (img = ${producto.imagen}) }" alt="">
+					<img class="card-img-top"
+						th:src="@{/images/{img} (img = ${producto.imagen}) }" alt="">
 					<div class="card-body">
 						<p class="card-text" th:text="${producto.nombre}"></p>
 					</div>
@@ -72,9 +50,9 @@
 						<a href="productohome.html" class="btn btn-success">Ver
 							producto</a>
 					</div>
-				</div>	
+				</div>
 			</div>
-			
+
 		</div>
 		<!-- /.row -->
 
@@ -82,13 +60,7 @@
 	<!-- /.container -->
 
 	<!-- Footer -->
-	<footer class="py-5 bg-dark">
-		<div class="container">
-			<p class="m-0 text-center text-white">Copyright &copy; Spring
-				eCommerce 2024</p>
-		</div>
-		<!-- /.container -->
-	</footer>
+	<div th:insert="~{usuario/template_usuario.html::footer}"></div>
 
 	<!-- Bootstrap core JavaScript -->
 	<script th:src="@{vendor/jquery/jquery.min.js}"></script>
