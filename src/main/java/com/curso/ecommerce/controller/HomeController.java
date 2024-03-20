@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -170,12 +171,21 @@ public class HomeController {
 			detalleOrdenService.save(detalle);
 		}
 
-		
-		//limpiar lista y orden
+		// limpiar lista y orden
 		orden = new Orden();
 		listaDetalles.clear();
-		
+
 		return "redirect:/";
+	}
+
+	@PostMapping("/search")
+	public String searchProduct(@RequestParam String nombre, Model model) {
+		LOG.info("Nombre del producto: {}", nombre);
+		List<Producto> listaProductos = productoService.findAll().stream()
+				.filter(p -> p.getNombre().toLowerCase().contains(nombre.toLowerCase())).collect(Collectors.toList());
+
+		model.addAttribute("listaProductos", listaProductos);
+		return "usuario/home";
 	}
 
 }
