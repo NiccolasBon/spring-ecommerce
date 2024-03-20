@@ -6,8 +6,10 @@ import com.curso.ecommerce.model.Orden;
 
 public interface IOrdenService {
 
-	public Orden save(Orden orden);
+	Orden save(Orden orden);
 
-	public List<Orden> findAll();
+	List<Orden> findAll();
+	
+	String generarNumOrden();
 
 }
