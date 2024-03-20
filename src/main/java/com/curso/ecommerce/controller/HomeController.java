@@ -74,7 +74,7 @@ public class HomeController {
 		detalleOrden.setNombre(producto.getNombre());
 		detalleOrden.setTotal(producto.getPrecio() * cantidad);
 		detalleOrden.setProducto(producto);
-		
+
 		listaDetalles.add(detalleOrden);
 
 		sumaTotal = listaDetalles.stream().mapToDouble(dt -> dt.getTotal()).sum(); // funcion lambda
@@ -83,6 +83,31 @@ public class HomeController {
 		model.addAttribute("cart", listaDetalles);
 		model.addAttribute("orden", orden);
 
+		return "usuario/carrito";
+	}
+
+	// quitar un producto del carrito
+	@GetMapping("/delete/card/{id}")
+	public String deleteProducto(@PathVariable Integer id, Model model) {
+
+		// lista nueva de productos
+		List<DetalleOrden> ordenesNuevas = new ArrayList<DetalleOrden>();
+
+		for (DetalleOrden detalleOrden : listaDetalles) {
+			if (detalleOrden.getProducto().getId() != id) {
+				ordenesNuevas.add(detalleOrden);
+			}
+		}
+		//poner la nueva lista con los productos restantes
+		listaDetalles = ordenesNuevas;
+		
+		double sumaTotal = 0;	
+		sumaTotal = listaDetalles.stream().mapToDouble(dt -> dt.getTotal()).sum(); // funcion lambda
+		
+		orden.setTotal(sumaTotal);
+		model.addAttribute("cart", listaDetalles);
+		model.addAttribute("orden", orden);
+		
 		return "usuario/carrito";
 	}
 
