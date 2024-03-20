@@ -57,7 +57,7 @@ public class HomeController {
 	}
 
 	@PostMapping("/cart")
-	public String addCart(@RequestParam Integer id, @RequestParam Integer cantidad) {
+	public String addCart(@RequestParam Integer id, @RequestParam Integer cantidad, Model model) {
 
 		DetalleOrden detalleOrden = new DetalleOrden();
 		Producto producto = new Producto();
@@ -68,6 +68,20 @@ public class HomeController {
 
 		LOG.info("Producto añadido: {}", producto);
 		LOG.info("Cantidad: {}", cantidad);
+
+		detalleOrden.setCantidad(cantidad);
+		detalleOrden.setPrecio(producto.getPrecio());
+		detalleOrden.setNombre(producto.getNombre());
+		detalleOrden.setTotal(producto.getPrecio() * cantidad);
+		detalleOrden.setProducto(producto);
+		
+		listaDetalles.add(detalleOrden);
+
+		sumaTotal = listaDetalles.stream().mapToDouble(dt -> dt.getTotal()).sum(); // funcion lambda
+
+		orden.setTotal(sumaTotal);
+		model.addAttribute("cart", listaDetalles);
+		model.addAttribute("orden", orden);
 
 		return "usuario/carrito";
 	}
