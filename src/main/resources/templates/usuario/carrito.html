@@ -24,7 +24,11 @@
 <body>
 
 	<!-- Navigation -->
-	<div th:insert="~{usuario/template_usuario.html::header}"></div>
+	<div th:insert="~{usuario/template_usuario.html::header}"
+		th:if="${miSession==null}"></div>
+
+	<div th:insert="~{usuario/template_usuario.html::header-user}"
+		th:unless="${miSession!=null}"></div>
 
 	<!-- Page Content -->
 	<div class="container">
@@ -60,7 +64,9 @@
 									<td th:text="${orden.precio}"></td>
 									<td th:text="${orden.cantidad}"></td>
 									<td th:text="${orden.total}"></td>
-									<td><a th:href="@{ /delete/card/{id} (id=${orden.producto.id}) }" class="btn btn-danger">Quitar</a></td>
+									<td><a
+										th:href="@{ /delete/card/{id} (id=${orden.producto.id}) }"
+										class="btn btn-danger">Quitar</a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -70,7 +76,8 @@
 						<h2 class="card-title">SUBTOTAL</h2>
 
 						<ul class="list-group">
-							<li class="list-group-item"><h5 th:text=" 'Total: '+${orden.total}"></h5></li>
+							<li class="list-group-item"><h5
+									th:text=" 'Total: '+${orden.total}"></h5></li>
 							<a th:href="@{/order}" class="btn btn-dark">Ver Orden</a>
 						</ul>
 					</div>
