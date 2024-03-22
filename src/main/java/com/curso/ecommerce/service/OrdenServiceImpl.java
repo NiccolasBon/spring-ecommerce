@@ -2,6 +2,7 @@ package com.curso.ecommerce.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,24 +44,29 @@ public class OrdenServiceImpl implements IOrdenService {
 			numero = listaNumeros.stream().max(Integer::compare).get();
 			numero++;
 		}
-		
-		if(numero < 10) { //
+
+		if (numero < 10) { //
 			numeroConcat = "000000000" + String.valueOf(numero);
-		} else if(numero < 100) {
+		} else if (numero < 100) {
 			numeroConcat = "00000000" + String.valueOf(numero);
-		} else if(numero < 1000) {
+		} else if (numero < 1000) {
 			numeroConcat = "0000000" + String.valueOf(numero);
-		} else if(numero < 10000) {
+		} else if (numero < 10000) {
 			numeroConcat = "000000" + String.valueOf(numero);
 		}
-		
+
 		return numeroConcat;
 	}
 
 	@Override
 	public List<Orden> findByUsuario(Usuario usuario) {
-		
+
 		return ordenRepo.findByUsuario(usuario);
+	}
+
+	@Override
+	public Optional<Orden> findById(Integer id) {
+		return ordenRepo.findById(id);
 	}
 
 }

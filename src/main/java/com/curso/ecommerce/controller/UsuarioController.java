@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -27,7 +28,7 @@ public class UsuarioController {
 
 	@Autowired
 	private IUsuarioService usuarioService;
-	
+
 	@Autowired
 	private IOrdenService ordenService;
 
@@ -69,17 +70,30 @@ public class UsuarioController {
 
 		return "redirect:/";
 	}
-	
+
 	@GetMapping("/compras")
 	public String obtenerCompras(HttpSession miSession, Model model) {
 		model.addAttribute("miSession", miSession.getAttribute("idusuario"));
-		Usuario usuario = usuarioService.findById(Integer.parseInt(miSession.getAttribute("idusuario").toString())).get();
-		
+		Usuario usuario = usuarioService.findById(Integer.parseInt(miSession.getAttribute("idusuario").toString()))
+				.get();
+
 		List<Orden> listaOrdenes = ordenService.findByUsuario(usuario);
-		
+
 		model.addAttribute("listaOrdenes", listaOrdenes);
-		
+
 		return "usuario/compras";
+	}
+
+	@GetMapping("/detalle/{id}")
+	public String mostrarDetalleCompra(@PathVariable Integer id, HttpSession miSession, Model model) {
+		log.info("Id de la orden: {}", id);
+		Optional<Orden> optionalOrden = ordenService.findById(id);
+
+		model.addAttribute("listaDetalles", optionalOrden.get().getDetalles());
+
+		// session
+		model.addAttribute("miSession", miSession.getAttribute("idusuario"));
+		return "usuario/detallecompra";
 	}
 
 }
