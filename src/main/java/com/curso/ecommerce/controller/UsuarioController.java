@@ -47,9 +47,9 @@ public class UsuarioController {
 		log.info("Accesos: {}", usuario);
 
 		Optional<Usuario> optionalUsuario = usuarioService.findByEmail(usuario.getEmail());
-		//log.info("Usuario de bd: {}", optionalUsuario.get());
 
 		if (optionalUsuario.isPresent()) {
+			log.info("Usuario de bd: {}", optionalUsuario.get());
 			miSession.setAttribute("idusuario", optionalUsuario.get().getId());
 			if (optionalUsuario.get().getTipo().equals("ADMIN")) {
 				return "redirect:/administrador";

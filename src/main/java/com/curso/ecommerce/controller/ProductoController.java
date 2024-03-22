@@ -17,7 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.curso.ecommerce.model.Producto;
 import com.curso.ecommerce.model.Usuario;
 import com.curso.ecommerce.service.IProductoService;
+import com.curso.ecommerce.service.IUsuarioService;
 import com.curso.ecommerce.service.UploadFileService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/productos")
@@ -27,6 +30,9 @@ public class ProductoController {
 
 	@Autowired
 	private IProductoService productoService;
+	
+	@Autowired
+	private IUsuarioService usuarioService;
 
 	@Autowired
 	private UploadFileService upload;
@@ -43,12 +49,12 @@ public class ProductoController {
 	}
 
 	@PostMapping("/save")
-	public String save(Producto producto, @RequestParam("img") MultipartFile file) throws IOException {
+	public String save(Producto producto, @RequestParam("img") MultipartFile file, HttpSession miSession) throws IOException {
 		LOGGER.info("Este es el objeto producto {}", producto);
 
-		Usuario usu = new Usuario();
-		usu.setId(1);
-		producto.setUsuario(usu);
+		Usuario usuario = usuarioService.findById(Integer.parseInt(miSession.getAttribute("idusuario").toString()))
+				.get();
+		producto.setUsuario(usuario);
 
 		// imagen funcionalidad
 		if (producto.getId() == null) { // cuando se crea un producto

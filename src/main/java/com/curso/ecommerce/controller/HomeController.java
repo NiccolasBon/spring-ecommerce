@@ -26,11 +26,13 @@ import com.curso.ecommerce.service.IOrdenService;
 import com.curso.ecommerce.service.IProductoService;
 import com.curso.ecommerce.service.IUsuarioService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/")
 public class HomeController {
 
-	private final Logger LOG = LoggerFactory.getLogger(HomeController.class);
+	private final Logger log = LoggerFactory.getLogger(HomeController.class);
 
 	@Autowired
 	private IProductoService productoService;
@@ -51,16 +53,17 @@ public class HomeController {
 	private Orden orden = new Orden();
 
 	@GetMapping("")
-	public String home(Model model) {
+	public String home(Model model, HttpSession miSession) {
 
 		model.addAttribute("listaProductos", productoService.findAll());
+		log.info("Session del usuario: {}", miSession.getAttribute("idusuario"));
 
 		return "usuario/home";
 	}
 
 	@GetMapping("productohome/{id}")
 	public String productoHome(@PathVariable Integer id, Model model) {
-		LOG.info("Id enviado como parametro {}", id);
+		log.info("Id enviado como parametro {}", id);
 
 		Producto producto = new Producto();
 		Optional<Producto> optionalProducto = productoService.get(id);
@@ -81,8 +84,8 @@ public class HomeController {
 		Optional<Producto> optionalProducto = productoService.get(id);
 		producto = optionalProducto.get();
 
-		LOG.info("Producto añadido: {}", producto);
-		LOG.info("Cantidad: {}", cantidad);
+		log.info("Producto añadido: {}", producto);
+		log.info("Cantidad: {}", cantidad);
 
 		detalleOrden.setCantidad(cantidad);
 		detalleOrden.setPrecio(producto.getPrecio());
@@ -142,9 +145,10 @@ public class HomeController {
 	}
 
 	@GetMapping("/order")
-	public String showOrder(Model model) {
+	public String showOrder(Model model, HttpSession miSession) {
 
-		Usuario usuario = usuarioService.findById(1).get();
+		Usuario usuario = usuarioService.findById(Integer.parseInt(miSession.getAttribute("idusuario").toString()))
+				.get();
 
 		model.addAttribute("cart", listaDetalles);
 		model.addAttribute("orden", orden);
@@ -154,15 +158,16 @@ public class HomeController {
 	}
 
 	@GetMapping("/saveOrder")
-	public String saveOrder() {
+	public String saveOrder(HttpSession miSession) {
 		Date fechaCreacion = new Date();
 		orden.setFechaCreacion(fechaCreacion);
 		orden.setNumero(ordenService.generarNumOrden());
 
 		// Usuario
-		Usuario usuario = usuarioService.findById(1).get();
-		orden.setUsuario(usuario);
+		Usuario usuario = usuarioService.findById(Integer.parseInt(miSession.getAttribute("idusuario").toString()))
+				.get();
 
+		orden.setUsuario(usuario);
 		ordenService.save(orden);
 
 		// guardar detalles
@@ -180,7 +185,7 @@ public class HomeController {
 
 	@PostMapping("/search")
 	public String searchProduct(@RequestParam String nombre, Model model) {
-		LOG.info("Nombre del producto: {}", nombre);
+		log.info("Nombre del producto: {}", nombre);
 		List<Producto> listaProductos = productoService.findAll().stream()
 				.filter(p -> p.getNombre().toLowerCase().contains(nombre.toLowerCase())).collect(Collectors.toList());
 
