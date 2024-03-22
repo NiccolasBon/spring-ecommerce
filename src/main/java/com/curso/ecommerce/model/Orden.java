@@ -1,13 +1,14 @@
 package com.curso.ecommerce.model;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,22 +25,23 @@ public class Orden {
 	@ManyToOne
 	private Usuario usuario;
 
-	@OneToOne(mappedBy = "orden")
-	private DetalleOrden detalle;
+	@OneToMany(mappedBy = "orden")
+	private List<DetalleOrden> detalles;
 
 	public Orden() {
-
+		
 	}
 
 	public Orden(Integer id, String numero, Date fechaCreacion, Date fechaRecibida, double total, Usuario usuario,
-			DetalleOrden detalle) {
+			List<DetalleOrden> detalles) {
+		super();
 		this.id = id;
 		this.numero = numero;
 		this.fechaCreacion = fechaCreacion;
 		this.fechaRecibida = fechaRecibida;
 		this.total = total;
 		this.usuario = usuario;
-		this.detalle = detalle;
+		this.detalles = detalles;
 	}
 
 	public Integer getId() {
@@ -90,18 +92,12 @@ public class Orden {
 		this.usuario = usuario;
 	}
 
-	public DetalleOrden getDetalle() {
-		return detalle;
+	public List<DetalleOrden> getDetalles() {
+		return detalles;
 	}
 
-	public void setDetalle(DetalleOrden detalle) {
-		this.detalle = detalle;
-	}
-
-	@Override
-	public String toString() {
-		return "Orden [id=" + id + ", numero=" + numero + ", fechaCreacion=" + fechaCreacion + ", fechaRecibida="
-				+ fechaRecibida + ", total=" + total + ", usuario=" + usuario + ", detalle=" + detalle + "]";
+	public void setDetalles(List<DetalleOrden> detalles) {
+		this.detalles = detalles;
 	}
 
 }
