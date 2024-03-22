@@ -24,10 +24,10 @@
 <body>
 
 	<!-- Navigation -->
-	<div th:insert="~{usuario/template_usuario.html::header}" th:if="${sesion==null}">	
+	<div th:insert="~{usuario/template_usuario.html::header}" th:if="${miSession==null}">	
 	</div>
 	
-	<div th:insert="~{usuario/template_usuario.html::header-user}" th:unless="${sesion!=null}"> </div>
+	<div th:insert="~{usuario/template_usuario.html::header-user}" th:unless="${miSession==null}"> </div>
 
 	<!-- Page Content -->
 	<div class="container">
